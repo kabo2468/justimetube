@@ -1,6 +1,23 @@
+function zeroPadding(num, length) {
+    'use strict';
+	return (Array(length).join('0') + num).slice(-length);
+}
+
 // #region clock
 var dateDiff;
+function formatDate(date) {
+    'use strict';
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    const d = date.getDay();
+    const h = date.getHours();
+    const min = date.getMinutes();
+    const sec = date.getSeconds();
+    return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec, 2)}秒`;
+}
+
 function getDateOffset() {
+    'use strict';
     var localDate = Date.now();
     $.ajax({
         type: "GET",
@@ -14,9 +31,12 @@ function getDateOffset() {
 }
 
 function clock() {
+    'use strict';
     var date = new Date(Date.now() + dateDiff);
 
-    $("#clock").html(`${date.getFullYear()}年${date.getMonth() + 1}月${date.getDay()}日<br>${date.getHours()}時${date.getMinutes()}分${date.getSeconds()}秒`);
+    if (dateDiff !== undefined) {
+        $("#clock-text").html(formatDate(date).replace(/\n/g, '<br>'));
+    }
 
     if (date.getSeconds() === 30) {
         getDateOffset();
@@ -25,8 +45,12 @@ function clock() {
     setTimeout(clock, 200);
 }
 
-function startClock(){
+(function(){
     getDateOffset();
+}());
+
+window.addEventListener('DOMContentLoaded', function() {
+    'use strict';
     clock();
-}
+});
 // #endregion clock

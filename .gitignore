@@ -1,4 +1,5 @@
 # テスト用
 test/
-# VSCodeのワークスペース
+# VSCode
 *.code-workspace
+.vscode/
