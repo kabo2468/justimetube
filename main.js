@@ -55,12 +55,13 @@ function clock() {
 
     setTimeout(clock, 200);
 }
+// #endregion clock
 
 (() => {
     getDateOffset();
 })();
 
-window.addEventListener('DOMContentLoaded', function() {
+$(() => {
     'use strict';
     clock();
 
@@ -69,10 +70,7 @@ window.addEventListener('DOMContentLoaded', function() {
     $('.selectList').append(list);
 
     $('#popup-layer, #popup-content').show();
-});
-// #endregion clock
 
-$(() => {
     $('#popup-close, #popup-layer').click(() => { 
         $('#popup-layer, #popup-content').remove();
     });
