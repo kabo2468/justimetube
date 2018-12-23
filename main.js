@@ -82,7 +82,7 @@ $(() => {
     list.text = 'Daisuke';
     $('.selectList').append(list);
 
-    // $('#popup-layer, #popup-content').show();
+    $('#popup-layer, #popup-content').show();
 
     $('#popup-close, #popup-layer').click(() => { 
         $('#popup-layer, #popup-content').remove();

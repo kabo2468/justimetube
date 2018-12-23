@@ -20,7 +20,7 @@ html, body {
 }
 
 #popup-layer {
-    // display: none;
+    display: none;
     position: fixed;
     left: 0;
     top: 0;
@@ -30,6 +30,7 @@ html, body {
 }
 
 #popup-content {
+    display: none;
     position: fixed;
     width: 50vw;
     height: 80vh;
@@ -37,6 +38,7 @@ html, body {
     top: calc(50% - 40vh);
     background-color: #fff;
     text-align: center;
+    border-radius: 10px;
 
     div {
         margin: 15px;
