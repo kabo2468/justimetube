@@ -20,7 +20,7 @@ html, body {
 }
 
 #popup-layer {
-    display: none;
+    // display: none;
     position: fixed;
     left: 0;
     top: 0;
@@ -30,23 +30,31 @@ html, body {
 }
 
 #popup-content {
-    display: none;
     position: fixed;
-    left: 50%;
-    top: 50%;
     width: 50vw;
-    height: 50vh;
-    margin-left: -25vw;
-    margin-top: -25vh;
+    height: 80vh;
+    left: calc(50% - 25vw);
+    top: calc(50% - 40vh);
     background-color: #fff;
     text-align: center;
+
+    div {
+        margin: 15px;
+    }
+}
+
+#popup-content-wide {
+    @extend #popup-content;
+    width: 90vw;
+    height: 90vh;
+    margin-left: -45vw;
+    margin-top: -45vh;
 }
 
 footer {
     display: flex;
     padding: 0 5px;
     background: #06f;
-    // color: #fff;
     height: $footer-height;
     align-items: center;
 }
@@ -92,9 +100,18 @@ select {
     margin: 10px;
 }
 
-#clock-text {
-    font-size: 4em;
-    @include wh100;
+#clock p {
+    margin: 10px;
+    height: auto;
+    @include alginCenter;
+}
+
+.event-name {
+    font-weight: bold;
+}
+
+#now-clock-text {
+    font-size: 2em;
     @include alginCenter;
 }
 
@@ -102,7 +119,7 @@ select {
     color: #f00;
 }
 
-.gh-link {
+.link {
     color: #fff;
-    // line-height: $footer-height - 0.5em;
+    margin: 0 5px;
 }

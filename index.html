@@ -11,9 +11,21 @@
 <body>
     <div id="popup-layer"></div>
     <div id="popup-content">
-        <h2>このWebサイトについて</h2>
-        <p></p>
-        <button id="popup-close">閉じる</button>
+        <div id="popup-pc">
+            <h1 id="about-text">このWebサイトについて</h1>
+            <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
+            <p>今のイベントは <span class="event-name"></span> です。</p>
+            <p>汚いコードなので、もし良ければGitHubでIssuesなど投げてくれるとありがたいです。</p>
+            <p>そのうち、自分で決められるようにします。</p>
+            <h2>このサイトはPC専用です。<br>そのうちスマホ等にも対応させるので、TwitterやGitHubで文句とか言ってください。</h2>
+            <p><a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a></p>
+            <button id="popup-close">閉じる</button>
+        </div>
+        <div id="popup-other">
+            <h1>ごめんなさい！</h1>
+            <p>このサイトはPC専用です！</p>
+            <p>そのうちスマホ等にも対応させるので、 <a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a> とか <a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a> で文句とか言ってください。</p>
+        </div>
     </div>
     <div id="container">
         <div id="grid">
@@ -42,7 +54,9 @@
                 </div>
             </div>
             <div class="item" id="clock">
-                <span id="clock-text"></span>
+                <p class="event-name"></p>
+                <p id="alarm-clock-text"></p>
+                <p id="now-clock-text"></p>
             </div>
             <div class="item">
                 <div class="selectDiv">
@@ -70,7 +84,8 @@
             </div>
         </div>
         <footer>
-            <a href="https://github.com/kabo2468/clock-with-yt" target="_blank" class="gh-link"><i class="fab fa-github fa-fw"></i>GitHub</a>
+            <a href="https://github.com/kabo2468/clock-with-yt" target="_blank" class="link"><i class="fab fa-github fa-fw"></i>GitHub</a>
+            <a href="https://twitter.com/kabo2468y" target="_blank" class="link"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
         </footer>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

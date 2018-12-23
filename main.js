@@ -1,10 +1,13 @@
+var alarmDate = new Date(2019, 0, 1, 0, 0, 0, 0);
+var eventText = '年越し';
+
 function zeroPadding(num, length) {
     'use strict';
 	return (Array(length).join('0') + num).slice(-length);
 }
 
 // #region clock
-var dateDiff;
+var dateDiff, updateOffset, nowDate;
 function formatDate(date) {
     'use strict';
     const y = date.getFullYear();
@@ -16,7 +19,6 @@ function formatDate(date) {
     return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec, 2)}秒`;
 }
 
-var updateOffset;
 function getDateOffset() {
     'use strict';
     const localDate = Date.now();
@@ -32,13 +34,12 @@ function getDateOffset() {
     updateOffset = true;
 }
 
-var nowDate;
 function clock() {
     'use strict';
     nowDate = new Date(Date.now() + dateDiff);
 
     if (dateDiff !== undefined) {
-        $("#clock-text").html(formatDate(nowDate).replace(/\n/g, '<br>'));
+        $("#now-clock-text").html(formatDate(nowDate).replace(/\n/g, '<br>'));
     }
 
     if (nowDate.getSeconds() === 30) {
@@ -50,7 +51,7 @@ function clock() {
     }
 
     if (alarmDate < nowDate) {
-        $('#clock-text').addClass('red-text');
+        $('#now-clock-text').addClass('red-text');
     }
 
     setTimeout(clock, 200);
@@ -63,13 +64,25 @@ function clock() {
 
 $(() => {
     'use strict';
+    const ua = navigator.userAgent;
+    if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) {
+        // スマホ以外
+        $('#popup-pc, #container').remove();
+        // $('#popup-content').addClass('wide');
+        $('#popup-content').attr('id', 'popup-content-wide');
+    } else {
+        $('#popup-other').remove();
+    }
+
+    $('.event-name').text(eventText);
+    $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
     clock();
 
-    let list = document.createElement('option');
+    const list = document.createElement('option');
     list.text = 'Daisuke';
     $('.selectList').append(list);
 
-    $('#popup-layer, #popup-content').show();
+    // $('#popup-layer, #popup-content').show();
 
     $('#popup-close, #popup-layer').click(() => { 
         $('#popup-layer, #popup-content').remove();
