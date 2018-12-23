@@ -9,16 +9,17 @@ function formatDate(date) {
     'use strict';
     const y = date.getFullYear();
     const m = date.getMonth() + 1;
-    const d = date.getDay();
+    const d = date.getDate();
     const h = date.getHours();
     const min = date.getMinutes();
     const sec = date.getSeconds();
     return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec, 2)}秒`;
 }
 
+var updateOffset;
 function getDateOffset() {
     'use strict';
-    var localDate = Date.now();
+    const localDate = Date.now();
     $.ajax({
         type: "GET",
         url: `https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`,
@@ -28,29 +29,51 @@ function getDateOffset() {
     }).fail(function(){
         dateDiff = 0;
     });
+    updateOffset = true;
 }
 
+var nowDate;
 function clock() {
     'use strict';
-    var date = new Date(Date.now() + dateDiff);
+    nowDate = new Date(Date.now() + dateDiff);
 
     if (dateDiff !== undefined) {
-        $("#clock-text").html(formatDate(date).replace(/\n/g, '<br>'));
+        $("#clock-text").html(formatDate(nowDate).replace(/\n/g, '<br>'));
     }
 
-    if (date.getSeconds() === 30) {
-        getDateOffset();
+    if (nowDate.getSeconds() === 30) {
+        if (updateOffset === false) {
+            getDateOffset();
+        }
+    } else {
+        updateOffset = false;
+    }
+
+    if (alarmDate < nowDate) {
+        $('#clock-text').addClass('red-text');
     }
 
     setTimeout(clock, 200);
 }
 
-(function(){
+(() => {
     getDateOffset();
-}());
+})();
 
 window.addEventListener('DOMContentLoaded', function() {
     'use strict';
     clock();
+
+    let list = document.createElement('option');
+    list.text = 'Daisuke';
+    $('.selectList').append(list);
+
+    $('#popup-layer, #popup-content').show();
 });
 // #endregion clock
+
+$(() => {
+    $('#popup-close, #popup-layer').click(() => { 
+        $('#popup-layer, #popup-content').remove();
+    });
+});

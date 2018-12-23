@@ -6,18 +6,49 @@ $item-padding: 10px;
     height: 100%;
 }
 
+@mixin alginCenter {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     @include wh100;
 }
 
+#popup-layer {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000, $alpha: .3);
+}
+
+#popup-content {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 50vw;
+    height: 50vh;
+    margin-left: -25vw;
+    margin-top: -25vh;
+    background-color: #fff;
+    text-align: center;
+}
+
 footer {
+    display: flex;
+    padding: 0 5px;
     background: #06f;
-    color: #fff;
-    bottom: 0;
-    width: 100vw;
+    // color: #fff;
     height: $footer-height;
+    align-items: center;
 }
 
 #container {
@@ -52,11 +83,26 @@ footer {
     }
 }
 
+.selectDiv {
+    @include wh100;
+    @include alginCenter;
+}
+
+select {
+    margin: 10px;
+}
+
 #clock-text {
-    text-align: center;
     font-size: 4em;
     @include wh100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include alginCenter;
+}
+
+.red-text {
+    color: #f00;
+}
+
+.gh-link {
+    color: #fff;
+    // line-height: $footer-height - 0.5em;
 }
