@@ -1,5 +1,6 @@
 var alarmDate = new Date(2019, 0, 1, 0, 0, 0, 0);
 var eventText = '年越し';
+var videoListJson;
 
 function zeroPadding(num, length) {
     'use strict';
@@ -78,9 +79,17 @@ $(() => {
     $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
     clock();
 
-    const list = document.createElement('option');
-    list.text = 'Daisuke';
-    $('.selectList').append(list);
+    $.getJSON("video-list.json", (data) => {
+        let list;
+        for (let i in data) {
+            list = document.createElement('option');
+            list.text = data[i].name;
+            $('.selectList').append(list);
+        }
+    });
+    // const list = document.createElement('option');
+    // list.text = 'Daisuke';
+    // $('.selectList').append(list);
 
     $('#popup-layer, #popup-content, #popup-content-wide').show();
 

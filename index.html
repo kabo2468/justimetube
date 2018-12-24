@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script>document.write('<link rel="stylesheet" href="style.css?' + parseInt((new Date)/1000) + '"><\/link>')</script>
+    <script id="load-css">document.write(`<link rel="stylesheet" href="style.css?${parseInt((new Date)/1000)}"><\/link>`)</script>
     <title>Clock with YouTube</title>
 </head>
 <body>
@@ -91,6 +91,6 @@
         </footer>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>document.write('<script src="main.js?' + parseInt((new Date)/1000) + '" async><\/script>')</script>
+    <script id="load-js">document.write(`<script src="main.js?${parseInt((new Date)/1000)}" async><\/script>`);$('#load-css,#load-js').remove();</script>
 </body>
 </html>
