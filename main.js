@@ -82,9 +82,9 @@ $(() => {
     list.text = 'Daisuke';
     $('.selectList').append(list);
 
-    $('#popup-layer, #popup-content').show();
+    $('#popup-layer, #popup-content, #popup-content-wide').show();
 
     $('#popup-close, #popup-layer').click(() => { 
-        $('#popup-layer, #popup-content').remove();
+        $('#popup-layer, #popup-content, #popup-content-wide').remove();
     });
 });

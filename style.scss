@@ -49,8 +49,8 @@ html, body {
     @extend #popup-content;
     width: 90vw;
     height: 90vh;
-    margin-left: -45vw;
-    margin-top: -45vh;
+    left: calc(50% - 45vw);
+    top: calc(50% - 45vh);
 }
 
 footer {
