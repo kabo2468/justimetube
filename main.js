@@ -4,7 +4,7 @@ var videoListJson;
 
 function zeroPadding(num, length) {
     'use strict';
-	return (Array(length).join('0') + num).slice(-length);
+    return (Array(length).join('0') + num).slice(-length);
 }
 
 // #region clock
@@ -69,19 +69,16 @@ $(() => {
     if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) {
         // スマホ以外
         $('#popup-pc, #container').remove();
-        // $('#popup-content').addClass('wide');
         $('#popup-content').attr('id', 'popup-content-wide');
     } else {
         $('#popup-other').remove();
     }
 
-    // $('.selectDiv').append('<select class="selectList"></select><button class="selectBtn">決定</button>');
-
     $('.event-name').text(eventText);
     $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
     clock();
-    // https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json
-    $.getJSON('https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json', data => {
+
+    $.getJSON('video-list.json', data => {
         videoListJson = data;
         let list;
         for (let i in data) {
@@ -90,9 +87,6 @@ $(() => {
             $('.selectList').append(list);
         }
     });
-    // const list = document.createElement('option');
-    // list.text = 'Daisuke';
-    // $('.selectList').append(list);
 
     $('#popup-layer, #popup-content, #popup-content-wide').show();
 
