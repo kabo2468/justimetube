@@ -75,11 +75,14 @@ $(() => {
         $('#popup-other').remove();
     }
 
+    // $('.selectDiv').append('<select class="selectList"></select><button class="selectBtn">決定</button>');
+
     $('.event-name').text(eventText);
     $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
     clock();
-
-    $.getJSON("video-list.json", (data) => {
+    // https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json
+    $.getJSON('https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json', data => {
+        videoListJson = data;
         let list;
         for (let i in data) {
             list = document.createElement('option');
@@ -96,4 +99,44 @@ $(() => {
     $('#popup-close, #popup-layer').click(() => { 
         $('#popup-layer, #popup-content, #popup-content-wide').remove();
     });
+});
+
+var Player = new Array(7);
+function onPlayerReady(event) {
+    event.target.pauseVideo();
+}
+
+function PlayerStart(player) {
+    player.playVideo();
+}
+
+$('.selectBtn').on('click', function() {
+    const select = $(this).prev('select');
+    const div = $(this).closest('div');
+    const divId = div.attr('id');
+    const num = Number(divId.replace('video', ''));
+    const idx = select.prop('selectedIndex');
+
+    const video = videoListJson[idx];
+    Player[num] = new YT.Player(divId, {
+        width: div.width(),
+        height: div.height(),
+        videoId: video.id,
+        playerVars: {
+            start: video.start,
+            end: video.end,
+            control: 0,
+            showinfo: 0,
+            rel: 0,
+            autoplay: 1,
+            disablekb: 0,
+            fs: 0
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+    setTimeout(function() {
+        PlayerStart(Player[num]);
+    }, (alarmDate - video.fit * 1000) - nowDate - 500);
 });

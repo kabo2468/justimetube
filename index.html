@@ -16,11 +16,17 @@
         <div id="popup-pc">
             <h1 id="about-text">このWebサイトについて</h1>
             <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
+            <p>左のリストから選んで、ボタンを押すとYouTubeの埋め込みが表示されます。</p>
+            <p>イベントの時刻が近づくと、勝手に再生されます。</p>
             <p>今のイベントは <span class="event-name"></span> です。</p>
             <p>そのうち、自分で決められるようにします。</p>
             <p>汚いコードなので、もし良ければGitHubでIssuesなど投げてくれるとありがたいです。</p>
             <h2>このサイトはPC専用です。<br>そのうちスマホ等にも対応させるので、TwitterやGitHubで文句とか言ってください。</h2>
+            <h3>画面サイズが小さいとレイアウトが壊れます。できるだけ大きくしてください。</h3>
             <p><a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a></p>
+            <p>とりあえず年越しまでに完成させたかったんだ。年越したら次は平成の終わりにするかも。</p>
+            <p>動画もJson形式で書いてるだけだから、GitHubでPull Requestか<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3">ここ</a>から投稿してください。</p>
+            <p>なんでもいいのでお願いします。</p>
             <button id="popup-close">閉じる</button>
         </div>
         <div id="popup-other">
@@ -32,27 +38,23 @@
     <div id="container">
         <div id="grid">
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video0">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video1">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video2">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video3">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item" id="clock">
@@ -61,27 +63,23 @@
                 <p id="now-clock-text"></p>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video4">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video5">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video6">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
             <div class="item">
-                <div class="selectDiv">
-                    <select class="selectList"></select>
-                    <button class="selectBtn">決定</button>
+                <div class="selectDiv" id="video7">
+                    <select class="selectList"></select><button class="selectBtn">決定</button>
                 </div>
             </div>
         </div>
@@ -90,7 +88,8 @@
             <a href="https://twitter.com/kabo2468y" target="_blank" class="link"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
         </footer>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" async></script>
+    <script src="https://www.youtube.com/player_api" async></script>
     <script id="load-js">document.write(`<script src="main.js?${parseInt((new Date)/1000)}" async><\/script>`);$('#load-css,#load-js').remove();</script>
 </body>
 </html>
