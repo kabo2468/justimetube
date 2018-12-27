@@ -117,6 +117,16 @@ select {
     @include alginCenter;
 }
 
+#vol-ctrl {
+    @include alginCenter;
+}
+
+button[id^="vol-"] {
+    margin: 0 5px;
+    font-size: .8em;
+    align-self: stretch;
+}
+
 .red-text {
     color: #f00;
 }

@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script id="load-css">document.write(`<link rel="stylesheet" href="style.css?${parseInt((new Date)/1000)}"><\/link>`)</script>
     <title>Clock with YouTube</title>
@@ -23,7 +21,7 @@
             <p>汚いコードなので、もし良ければGitHubでIssuesなど投げてくれるとありがたいです。</p>
             <p>下にSingleページという1つの動画だけで、自由に時間を決められるページがあります。</p>
             <h2>このサイトはPC専用です。<br>そのうちスマホ等にも対応させるので、TwitterやGitHubで文句とか言ってください。</h2>
-            <h3>画面サイズが小さいとレイアウトが壊れます。できるだけ大きくしてください。</h3>
+            <h3>画面サイズのアスペクト比を16:9にしてください。レイアウトが崩れます。</h3>
             <p><a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a></p>
             <p>とりあえず年越しまでに完成させたかったんだ。年越したら次は平成の終わりにするかも。</p>
             <p>動画もJson形式で書いてるだけだから、GitHubでPull Requestか<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3">ここ</a>から投稿してください。</p>
@@ -62,6 +60,16 @@
                 <p class="event-name"></p>
                 <p id="alarm-clock-text"></p>
                 <p id="now-clock-text"></p>
+                <div id="vol-ctrl">
+                    <span>音量:</span>
+                    <button id="vol-mute">ミュート</button>
+                    <button id="vol-50">50%</button>
+                    <button id="vol-max">最大</button>
+                </div>
+                <p>
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Clock with YouTube" data-url="https://kabo2468.github.io/clock-with-yt/" data-show-count="false">Tweet</a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </p>
             </div>
             <div class="item">
                 <div class="selectDiv" id="video4">
@@ -90,7 +98,7 @@
             <a href="single/" class="link"><i class="fas fa-chevron-right fa-fw"></i>Singleページ</a>
         </footer>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" async></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.youtube.com/player_api" async></script>
     <script id="load-js">document.write(`<script src="main.js?${parseInt((new Date)/1000)}" async><\/script>`);$('#load-css,#load-js').remove();</script>
 </body>
