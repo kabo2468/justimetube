@@ -70,7 +70,7 @@ $(() => {
 
     clock();
 
-    $.getJSON('https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json', data => {
+    $.getJSON('../video-list.json', data => {
         videoListJson = data;
         let list;
         for (let i in data) {
