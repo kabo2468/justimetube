@@ -1,13 +1,13 @@
-var alarmDate = new Date(2019, 0, 1, 0, 0, 0, 0);
-var eventText = '年越し';
+var alarmDate = new Date();
+alarmDate.setSeconds(0);
+alarmDate.setHours(alarmDate.getHours() + 1);
 var videoListJson;
 
 function zeroPadding(num, length) {
     'use strict';
-    return (Array(length).join('0') + num).slice(-length);
+	return (Array(length).join('0') + num).slice(-length);
 }
 
-// #region clock
 var dateDiff, updateOffset, nowDate;
 function formatDate(date) {
     'use strict';
@@ -40,7 +40,7 @@ function clock() {
     nowDate = new Date(Date.now() + dateDiff);
 
     if (dateDiff !== undefined) {
-        $("#now-clock-text").html(formatDate(nowDate).replace(/\n/g, '<br>'));
+        $("#nowDateText").html(formatDate(nowDate).replace(/\n/g, '<br>'));
     }
 
     if (nowDate.getSeconds() === 30) {
@@ -52,12 +52,13 @@ function clock() {
     }
 
     if (alarmDate < nowDate) {
-        $('#now-clock-text').addClass('red-text');
+        $('#nowDateText').addClass('red-text');
+    } else {
+        $('#nowDateText').removeClass('red-text');
     }
 
-    setTimeout(clock, 200);
+    setTimeout(clock, 250);
 }
-// #endregion clock
 
 (() => {
     getDateOffset();
@@ -65,37 +66,27 @@ function clock() {
 
 $(() => {
     'use strict';
-    const ua = navigator.userAgent;
-    if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) {
-        // スマホ以外
-        $('#popup-pc, #container').remove();
-        $('#popup-content').attr('id', 'popup-content-wide');
-    } else {
-        $('#popup-other').remove();
-    }
+    $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
 
-    $('.event-name').text(eventText);
-    $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
     clock();
 
-    $.getJSON('video-list.json', data => {
+    $.getJSON('https://raw.githubusercontent.com/kabo2468/clock-with-yt/master/video-list.json', data => {
         videoListJson = data;
         let list;
         for (let i in data) {
             list = document.createElement('option');
             list.text = data[i].name;
-            $('.selectList').append(list);
+            $('#selectList').append(list);
         }
-    });
-
-    $('#popup-layer, #popup-content, #popup-content-wide').show();
-
-    $('#popup-close, #popup-layer').click(() => { 
-        $('#popup-layer, #popup-content, #popup-content-wide').remove();
     });
 });
 
-var Player = new Array(7);
+$('#applyBtn').on('click', function () {
+    alarmDate = new Date($('#setDateInput').val());
+    $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+});
+
+var player;
 function onPlayerReady(event) {
     event.target.pauseVideo();
 }
@@ -104,21 +95,15 @@ function PlayerStart(player) {
     player.playVideo();
 }
 
-$('.selectBtn').on('click', function() {
-    const select = $(this).prev('select');
-    const div = $(this).closest('div');
-    const divId = div.attr('id');
-    const num = Number(divId.replace('video', ''));
-    const idx = select.prop('selectedIndex');
-
-    const video = videoListJson[idx];
-    Player[num] = new YT.Player(divId, {
-        width: div.width(),
-        height: div.height(),
-        videoId: video.id,
+$('#selectBtn').on('click', function () {
+    const idx = $('#selectList').prop('selectedIndex');
+    player = new YT.Player('youtube', {
+        width: 640,
+        height: 360,
+        videoId: videoListJson[idx].id,
         playerVars: {
-            start: video.start,
-            end: video.end,
+            start: videoListJson[idx].start,
+            end: videoListJson[idx].end,
             control: 0,
             showinfo: 0,
             rel: 0,
@@ -131,6 +116,6 @@ $('.selectBtn').on('click', function() {
         }
     });
     setTimeout(function() {
-        PlayerStart(Player[num]);
-    }, alarmDate - video.fit * 1000 - nowDate - 500);
+        PlayerStart(player);
+    }, alarmDate - videoListJson[idx].fit * 1000 - nowDate - 500);
 });
