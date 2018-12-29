@@ -1,7 +1,7 @@
-var alarmDate = new Date();
-alarmDate.setSeconds(0);
-alarmDate.setHours(alarmDate.getHours() + 1);
-var videoListJson;
+// var alarmDate = new Date();
+// alarmDate.setSeconds(0);
+// alarmDate.setHours(alarmDate.getHours() + 1);
+var videoListJson, alarmDate, eventText;
 
 function zeroPadding(num, length) {
   'use strict';
@@ -68,7 +68,12 @@ function clock() {
 
 $(() => {
   'use strict';
-  $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+  $.getJSON('../event.json', d => {
+    eventText = d.name;
+    alarmDate = new Date(d.date.year, d.date.month - 1, d.date.day, d.date.hour, d.date.minute, d.date.second);
+    $('#eventText').text(eventText);
+    $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+  });
 
   clock();
 
@@ -86,6 +91,7 @@ $(() => {
 $('#applyBtn').on('click', function() {
   alarmDate = new Date($('#setDateInput').val());
   $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+  $('#eventText').text('カスタム');
 });
 
 var player;
@@ -99,9 +105,11 @@ function PlayerStart(player) {
 
 $('#selectBtn').on('click', function() {
   const video = videoListJson[$('#selectList').prop('selectedIndex')];
+  const w = $('body').width() > 640 ? 640 : $('body').width() - 2;
+  const h = w === $('body').width() - 2 ? ($('body').width() - 2) / 16 * 9 : 360;
   player = new YT.Player('youtube', {
-    width: 640,
-    height: 360,
+    width: w,
+    height: h,
     videoId: video.id,
     playerVars: {
       start: video.start,
@@ -120,4 +128,14 @@ $('#selectBtn').on('click', function() {
   setTimeout(function() {
     PlayerStart(player);
   }, alarmDate - video.fit * 1000 - video.start * 1000 - nowDate - 500);
+});
+
+$('#aboutBtn').on('click', function() {
+  if ($('#about').is(':visible')) {
+    $('#about').hide();
+    $(this).text('開く');
+  } else {
+    $('#about').show();
+    $(this).text('閉じる');
+  }
 });

@@ -1,6 +1,4 @@
-var alarmDate = new Date(2019, 0, 1, 0, 0, 0, 0);
-var eventText = '年越し';
-var videoListJson;
+var videoListJson, alarmDate, eventText;
 
 function zeroPadding(num, length) {
 	'use strict';
@@ -65,34 +63,38 @@ function clock() {
 
 $(() => {
 	'use strict';
+	$('#popup-layer, #popup-content, #popup-content-wide').show();
 	const ua = navigator.userAgent;
 	if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) {
 		// スマホ以外
-		$('#popup-pc, #container').remove();
+		$('#popup-layer, #popup-pc, #container').remove();
 		$('#popup-content').attr('id', 'popup-content-wide');
+		return;
 	} else {
 		$('#popup-other').remove();
 	}
 
-	$('.event-name').text(eventText);
-	$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+	$.getJSON('event.json', d => {
+		eventText = d.name;
+		alarmDate = new Date(d.date.year, d.date.month - 1, d.date.day, d.date.hour, d.date.minute, d.date.second);
+		$('.event-name').text(eventText);
+		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));	
+	});
 	clock();
 
-	$.getJSON('video-list.json', data => {
-		videoListJson = data;
+	$.getJSON('video-list.json', d => {
+		videoListJson = d;
 		let list;
-		for (let i in data) {
+		for (const i in d) {
 			list = document.createElement('option');
-			list.text = data[i].name;
+			list.text = d[i].name;
 			$('.selectList').append(list);
 		}
 	});
+});
 
-	$('#popup-layer, #popup-content, #popup-content-wide').show();
-
-	$('#popup-close, #popup-layer').click(() => {
-		$('#popup-layer, #popup-content, #popup-content-wide').remove();
-	});
+$('#popup-close, #popup-layer').click(() => {
+	$('#popup-layer, #popup-content, #popup-content-wide').remove();
 });
 
 var Player = new Array(7);

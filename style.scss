@@ -47,10 +47,11 @@ html, body {
 
 #popup-content-wide {
     @extend #popup-content;
-    width: 90vw;
-    height: 90vh;
-    left: calc(50% - 45vw);
-    top: calc(50% - 45vh);
+    width: 100vw;
+    height: 100vh;
+    left: calc(50% - 50vw);
+    top: calc(50% - 50vh);
+    border-radius: 0;
 }
 
 footer {
@@ -134,4 +135,8 @@ button[id^="vol-"] {
 .link {
     color: #fff;
     margin: 0 5px;
+}
+
+.not {
+    text-decoration: line-through;
 }

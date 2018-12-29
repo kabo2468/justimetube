@@ -1,7 +1,37 @@
+// ブレイクポイントを設定
+$bp-tablet: 1024px;
+$bp-sp: 640px;
+$bp-iphone: 320px;
+
+// メディアクエリ用のミックスイン
+@mixin media($media-width) {
+	@if $media-width == sp {
+		@media only screen and (max-width: $bp-sp) {
+			@content;
+		}
+	}
+	@else if $media-width == iphone {
+		@media only screen and (max-width: $bp-iphone) {
+			@content;
+		}
+	}
+	@else if $media-width == tablet {
+		@media only screen and (max-width: $bp-tablet) {
+			@content;
+		}
+	}
+}
+
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
+    @include media(tablet) {
+        float: none;
+    }
+    @include media(sp) {
+        width: auto;
+    }
 }
 
 header {
@@ -20,6 +50,9 @@ header {
 #container {
     margin: 30px;
     text-align: center;
+    @include media(sp) {
+        margin: 10px 0;
+    }
 }
 
 #video {
@@ -30,6 +63,9 @@ header {
 
 #youtube {
     padding: 5px;
+    @include media(sp) {
+        padding: 0;
+    }
 }
 
 select {
@@ -40,12 +76,22 @@ select {
     margin: 5px;
 }
 
+#eventText {
+    font-weight: bold;
+}
+
 #about {
     width: fit-content;
     border: 1px solid #000;
     text-align: center;
-    margin: 2em auto 0;
-    padding: 10px;
+    margin: 0 auto;
+    padding: 5px 10px;
+}
+
+#aboutBtn {
+    text-align: center;
+    margin: auto;
+    display: block;
 }
 
 .red-text {
