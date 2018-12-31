@@ -99,8 +99,8 @@ function onPlayerReady(event) {
   event.target.pauseVideo();
 }
 
-function PlayerStart(player) {
-  player.playVideo();
+function PlayerStart(p) {
+  p.playVideo();
 }
 
 $('#selectBtn').on('click', function() {
@@ -127,7 +127,7 @@ $('#selectBtn').on('click', function() {
   });
   setTimeout(function() {
     PlayerStart(player);
-  }, alarmDate - video.fit * 1000 - video.start * 1000 - nowDate - 500);
+  }, alarmDate - (video.fit - video.start) * 1000 - nowDate - 500);
 });
 
 $('#aboutBtn').on('click', function() {

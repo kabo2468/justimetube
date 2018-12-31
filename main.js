@@ -74,20 +74,32 @@ $(() => {
 		$('#popup-other').remove();
 	}
 
-	$.getJSON('event.json', d => {
-		eventText = d.name;
-		alarmDate = new Date(d.date.year, d.date.month - 1, d.date.day, d.date.hour, d.date.minute, d.date.second);
+	$.ajax({
+		type: 'GET',
+		cache: false,
+		url: 'event.json',
+		dataType: 'json'
+	})
+	.done(function(res) {
+		eventText = res.name;
+		alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
 		$('.event-name').text(eventText);
-		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));	
+		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
 	});
 	clock();
 
-	$.getJSON('video-list.json', d => {
-		videoListJson = d;
+	$.ajax({
+		type: 'GET',
+		cache: false,
+		url: 'video-list.json',
+		dataType: 'json'
+	})
+	.done(function(res) {
+		videoListJson = res;
 		let list;
-		for (const i in d) {
+		for (const i in res) {
 			list = document.createElement('option');
-			list.text = d[i].name;
+			list.text = res[i].name;
 			$('.selectList').append(list);
 		}
 	});
@@ -132,7 +144,7 @@ $('.selectBtn').on('click', function() {
 	});
 	setTimeout(function() {
 		PlayerStart(Player[num]);
-  }, alarmDate - video.fit * 1000 - video.start * 1000 - nowDate - 500);
+  }, alarmDate - (video.fit - video.start) * 1000 - nowDate - 500);
 });
 
 $('#vol-mute').on('click', function() {
