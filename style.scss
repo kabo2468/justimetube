@@ -72,7 +72,7 @@ footer {
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
     height: calc(100vh - #{$footer-height});
-    width: calc((100vh - #{$footer-height})/9*16);
+    width: 100vw;
     margin: 0 auto;
 }
 
