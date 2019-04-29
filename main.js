@@ -84,7 +84,7 @@ $(() => {
 		eventText = res.name;
 		alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
 		$('.event-name').text(eventText);
-		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
+		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
 	});
 	clock();
 
@@ -96,20 +96,24 @@ $(() => {
 	})
 	.done(function(res) {
 		videoListJson = res;
-		let list;
-		for (const i in res) {
-			list = document.createElement('option');
-			list.text = res[i].name;
-			$('.selectList').append(list);
-		}
+		updateOption(res);
 	});
 });
+
+function updateOption(videoList) {
+	$('.selectList').empty();
+	for (const i in videoList) {
+		const list = document.createElement('option');
+		list.text = videoList[i].name;
+		$('.selectList').append(list);
+	}
+}
 
 $('#popup-close, #popup-layer').click(() => {
 	$('#popup-layer, #popup-content, #popup-content-wide').remove();
 });
 
-var Player = new Array(7);
+var Player = new Array(100);
 function onPlayerReady(event) {
 	event.target.pauseVideo();
 }
@@ -118,7 +122,7 @@ function PlayerStart(player) {
 	player.playVideo();
 }
 
-$('.selectBtn').on('click', function() {
+$(document).on('click', '.selectBtn', function () {
 	const div = $(this).closest('div');
 	const divId = div.attr('id');
 	const num = Number(divId.replace('video', ''));
@@ -142,9 +146,11 @@ $('.selectBtn').on('click', function() {
 			onReady: onPlayerReady
 		}
 	});
+	const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 500;
+	console.log(`ID: ${divId} / Time: ${time}`);
 	setTimeout(function() {
 		PlayerStart(Player[num]);
-  }, alarmDate - (video.fit - video.start) * 1000 - nowDate - 500);
+  }, time);
 });
 
 $('#vol-mute').on('click', function() {
@@ -178,4 +184,68 @@ $('#vol-max').on('click', function() {
     i.unMute();
     i.setVolume(100);
   }
+});
+
+var divVideoId = [...Array(30).keys()].map(i => i+8);
+var idLen = divVideoId.length;
+while (idLen) {
+	const j = Math.floor(Math.random() * idLen);
+	const t = divVideoId[--idLen];
+	divVideoId[idLen] = divVideoId[j];
+	divVideoId[j] = t;
+}
+
+var grid = $('#grid');
+
+function gridRmvItem(num) {
+	for (let i = 0; i < num; i++) {
+		const last = $('.item:last');
+		const videoId = last.children('.selectDiv').attr('id');
+		divVideoId.push(parseInt(videoId.replace('video', '')));
+		last.remove();
+	}
+}
+
+function gridAddItem(num) {
+	for (let i = 0; i < num; i++) {
+		const item = '<div class="item"><div class="selectDiv" id="video' + divVideoId[0] + '"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>';
+		divVideoId.shift();
+		grid.append(item);
+	}
+}
+
+function getColRowNum() {
+	const colNum = grid.css('grid-template-columns').split(' ').length;
+	const rowNum = grid.css('grid-template-rows').split(' ').length;
+	return { rowNum, colNum };
+}
+
+$('#grid-col-add').on('click', function () {
+	const { rowNum, colNum } = getColRowNum();
+	gridAddItem(rowNum);
+	grid.css('grid-template-columns', `repeat(${colNum + 1}, 1fr)`);
+	updateOption(videoListJson);
+});
+
+$('#grid-row-add').on('click', function () {
+	const { rowNum, colNum } = getColRowNum();
+	gridAddItem(colNum);
+	grid.css('grid-template-rows', `repeat(${rowNum + 1}, 1fr)`);
+	updateOption(videoListJson);
+});
+
+$('#grid-col-rm').on('click', function () {
+	const { rowNum, colNum } = getColRowNum();
+	if (colNum > 1) {
+		gridRmvItem(rowNum);
+		grid.css('grid-template-columns', `repeat(${colNum - 1}, 1fr)`);	
+	}
+});
+
+$('#grid-row-rm').on('click', function () {
+	const { rowNum, colNum } = getColRowNum();
+	if (rowNum) {
+		gridRmvItem(colNum);
+		grid.css('grid-template-rows', `repeat(${rowNum - 1}, 1fr)`);	
+	}
 });

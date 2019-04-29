@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&subset=japanese');
 $footer-height: 2em;
 $item-padding: 10px;
 
@@ -16,6 +17,7 @@ $item-padding: 10px;
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'Noto Sans JP', sans-serif;
     @include wh100;
 }
 
@@ -39,6 +41,7 @@ html, body {
     background-color: #fff;
     text-align: center;
     border-radius: 10px;
+    font-size: 1.1em;
 
     div {
         margin: 15px;
@@ -69,8 +72,8 @@ footer {
 
 #grid {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     height: calc(100vh - #{$footer-height});
     width: 100vw;
     margin: 0 auto;
@@ -80,18 +83,6 @@ footer {
     box-sizing: border-box;
     border: 2px solid #000;
     padding: $item-padding;
-    @for $i from 1 through 3 {
-        &:nth-child(3n+#{$i}) {
-            grid-column: $i;
-        }
-    }
-    @for $i from 0 through 2 {
-        @for $j from 1 through 3 {
-            &:nth-child(#{$j}+#{$i*3}) {
-                grid-row: $i+1;
-            }
-        }
-    }
 }
 
 .selectDiv {
@@ -118,14 +109,13 @@ select {
     @include alginCenter;
 }
 
-#vol-ctrl {
+#ctrl {
     @include alginCenter;
-}
-
-button[id^="vol-"] {
-    margin: 0 5px;
-    font-size: .8em;
-    align-self: stretch;
+    button {
+        margin: 0 3px;
+        font-size: .8em;
+        align-self: stretch;
+    }
 }
 
 .red-text {

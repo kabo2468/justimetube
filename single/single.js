@@ -125,9 +125,11 @@ $('#selectBtn').on('click', function() {
       onReady: onPlayerReady
     }
   });
+  const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 500;
+  console.log(time);
   setTimeout(function() {
     PlayerStart(player);
-  }, alarmDate - (video.fit - video.start) * 1000 - nowDate - 500);
+  }, time);
 });
 
 $('#aboutBtn').on('click', function() {
