@@ -82,5 +82,26 @@
         "fit": 64,
         "start": 8,
         "end": 100
+    },
+    {
+        "name": "サライ",
+        "id": "lMkso1T6BM0",
+        "fit": 71,
+        "start": 0, 
+        "end": 119
+    },
+    {
+        "name": "ゴールデンボンバー - 令和",
+        "id": "VeUQk7O-1E4",
+        "fit": 65,
+        "start": 0,
+        "end": 93
+    },
+    {
+        "name": "U.S.A.",
+        "id": "sr--GVIoluU",
+        "fit": 67,
+        "start": 0,
+        "end": 101
     }
 ]
