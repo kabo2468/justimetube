@@ -83,6 +83,10 @@ $(() => {
 	.done(function(res) {
 		eventText = res.name;
 		alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
+		if (nowDate > alarmDate) {
+			alarmDate = new Date(res.next.date.year, res.next.date.month - 1, res.next.date.day, res.next.date.hour, res.next.date.minute, res.next.date.second);
+			eventText = res.next.name;
+		}
 		$('.event-name').text(eventText);
 		$('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
 	});
@@ -101,6 +105,7 @@ $(() => {
 });
 
 function updateOption(videoList) {
+	'use strict';
 	$('.selectList').empty();
 	for (const i in videoList) {
 		const list = document.createElement('option');
@@ -110,19 +115,23 @@ function updateOption(videoList) {
 }
 
 $('#popup-close, #popup-layer').click(() => {
+	'use strict';
 	$('#popup-layer, #popup-content, #popup-content-wide').remove();
 });
 
-var Player = new Array(100);
+var Player = new Array(30);
 function onPlayerReady(event) {
+	'use strict';
 	event.target.pauseVideo();
 }
 
 function PlayerStart(player) {
+	'use strict';
 	player.playVideo();
 }
 
 $(document).on('click', '.selectBtn', function () {
+	'use strict';
 	const div = $(this).closest('div');
 	const divId = div.attr('id');
 	const num = Number(divId.replace('video', ''));
@@ -154,36 +163,39 @@ $(document).on('click', '.selectBtn', function () {
 });
 
 $('#vol-mute').on('click', function() {
-  for(const i of Player) {
-    if (typeof i === 'undefined') {
-      continue;
-    }
-    if (i.isMuted()) {
-      i.unMute();
-    } else {
-      i.mute();
-    }
-  }
+	'use strict';
+	for(const i of Player) {
+		if (typeof i === 'undefined') {
+			continue;
+		}
+		if (i.isMuted()) {
+			i.unMute();
+		} else {
+			i.mute();
+		}
+	}
 });
 
 $('#vol-50').on('click', function() {
-  for (const i of Player) {
-    if (typeof i === 'undefined') {
-      continue;
-    }
-    i.unMute();
-    i.setVolume(50);
-  }
+	'use strict';
+	for (const i of Player) {
+		if (typeof i === 'undefined') {
+			continue;
+		}
+		i.unMute();
+		i.setVolume(50);
+	}
 });
 
 $('#vol-max').on('click', function() {
-  for (const i of Player) {
-    if (typeof i === 'undefined') {
-      continue;
-    }
-    i.unMute();
-    i.setVolume(100);
-  }
+	'use strict';
+	for (const i of Player) {
+		if (typeof i === 'undefined') {
+			continue;
+		}
+		i.unMute();
+		i.setVolume(100);
+	}
 });
 
 var divVideoId = [...Array(30).keys()].map(i => i+8);
@@ -197,7 +209,16 @@ while (idLen) {
 
 var grid = $('#grid');
 
+function gridAddItem(num) {
+	'use strict';
+	for (let i = 0; i < num; i++) {
+		const item = `<div class="item"><div class="selectDiv" id="video${divVideoId[0]}"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>`;
+		divVideoId.shift();
+		grid.append(item);
+	}
+}
 function gridRmvItem(num) {
+	'use strict';
 	for (let i = 0; i < num; i++) {
 		const last = $('.item:last');
 		const videoId = last.children('.selectDiv').attr('id');
@@ -206,46 +227,57 @@ function gridRmvItem(num) {
 	}
 }
 
-function gridAddItem(num) {
-	for (let i = 0; i < num; i++) {
-		const item = '<div class="item"><div class="selectDiv" id="video' + divVideoId[0] + '"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>';
-		divVideoId.shift();
-		grid.append(item);
-	}
-}
-
 function getColRowNum() {
+	'use strict';
 	const colNum = grid.css('grid-template-columns').split(' ').length;
 	const rowNum = grid.css('grid-template-rows').split(' ').length;
 	return { rowNum, colNum };
 }
 
+function setGridCss(type, num) {
+	'use strict';
+	let name;
+	switch (type) {
+		case 'col':
+			name = 'columns';
+			break;
+		case 'row':
+			name = 'rows';
+			break;
+	}
+	grid.css(`grid-template-${name}`, `repeat(${num}, 1fr)`);
+}
+
 $('#grid-col-add').on('click', function () {
+	'use strict';
 	const { rowNum, colNum } = getColRowNum();
 	gridAddItem(rowNum);
-	grid.css('grid-template-columns', `repeat(${colNum + 1}, 1fr)`);
+	setGridCss('col', colNum + 1);
 	updateOption(videoListJson);
 });
 
 $('#grid-row-add').on('click', function () {
+	'use strict';
 	const { rowNum, colNum } = getColRowNum();
 	gridAddItem(colNum);
-	grid.css('grid-template-rows', `repeat(${rowNum + 1}, 1fr)`);
+	setGridCss('row', rowNum + 1);
 	updateOption(videoListJson);
 });
 
 $('#grid-col-rm').on('click', function () {
+	'use strict';
 	const { rowNum, colNum } = getColRowNum();
 	if (colNum > 1) {
 		gridRmvItem(rowNum);
-		grid.css('grid-template-columns', `repeat(${colNum - 1}, 1fr)`);	
+		setGridCss('col', colNum - 1);
 	}
 });
 
 $('#grid-row-rm').on('click', function () {
+	'use strict';
 	const { rowNum, colNum } = getColRowNum();
-	if (rowNum) {
+	if (rowNum > 1) {
 		gridRmvItem(colNum);
-		grid.css('grid-template-rows', `repeat(${rowNum - 1}, 1fr)`);	
+		setGridCss('row', rowNum - 1);
 	}
 });
