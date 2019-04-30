@@ -52,6 +52,7 @@ function clock() {
 
 	if (alarmDate < nowDate) {
 		$('#now-clock-text').addClass('red-text');
+		$('.selectBtn').prop('disabled', true);
 	}
 
 	setTimeout(clock, 200);
@@ -83,7 +84,7 @@ $(() => {
 	.done(function(res) {
 		eventText = res.name;
 		alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
-		if (nowDate > alarmDate) {
+		if (Date.now() > alarmDate) {
 			alarmDate = new Date(res.next.date.year, res.next.date.month - 1, res.next.date.day, res.next.date.hour, res.next.date.minute, res.next.date.second);
 			eventText = res.next.name;
 		}
