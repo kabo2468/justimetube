@@ -1,17 +1,17 @@
 {
-    "name": "令和開始",
+    "name": "2020年",
     "date": {
-        "year": 2019,
-        "month": 5,
+        "year": 2020,
+        "month": 1,
         "day": 1,
         "hour": 0,
         "minute": 0,
         "second": 0
     },
     "next": {
-        "name": "2020年",
+        "name": "2021年",
         "date": {
-            "year": 2020,
+            "year": 2021,
             "month": 1,
             "day": 1,
             "hour": 0,
