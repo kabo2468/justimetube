@@ -1,12 +1,12 @@
 var videoListJson, alarmDate, eventText;
 
-function zeroPadding(num, length) {
+const zeroPadding = (num, length) => {
 	'use strict';
 	return (Array(length).join('0') + num).slice(-length);
-}
+};
 
-var dateDiff, updateOffset, nowDate;
-function formatDate(date) {
+var dateDiff, nowDate;
+const formatDate = date => {
 	'use strict';
 	const y = date.getFullYear();
 	const m = date.getMonth() + 1;
@@ -15,9 +15,9 @@ function formatDate(date) {
 	const min = date.getMinutes();
 	const sec = date.getSeconds();
 	return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec,2)}秒`;
-}
+};
 
-function getDateOffset() {
+const getDateOffset = () => {
 	'use strict';
 	const localDate = Date.now();
 	$.ajax({
@@ -25,29 +25,20 @@ function getDateOffset() {
 		url: `https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`,
 		dataType: 'json'
 	})
-		.done(function(res) {
+		.done(res => {
 			dateDiff = res.st * 1000 + (localDate - res.it * 1000) / 2 - localDate;
 		})
-		.fail(function() {
+		.fail(() => {
 			dateDiff = 0;
 		});
-	updateOffset = true;
-}
+};
 
-function clock() {
+const clock = () => {
 	'use strict';
 	nowDate = new Date(Date.now() + dateDiff);
 
 	if (dateDiff !== undefined) {
 		$('#now-clock-text').html(formatDate(nowDate).replace(/\n/g, '<br>'));
-	}
-
-	if (nowDate.getSeconds() === 30) {
-		if (updateOffset === false) {
-			getDateOffset();
-		}
-	} else {
-		updateOffset = false;
 	}
 
 	if (alarmDate < nowDate) {
@@ -56,10 +47,11 @@ function clock() {
 	}
 
 	setTimeout(clock, 200);
-}
+};
 
 (() => {
 	getDateOffset();
+	setInterval(getDateOffset, 1000 * 60);
 })();
 
 $(() => {
@@ -81,7 +73,7 @@ $(() => {
 		url: 'event.json',
 		dataType: 'json'
 	})
-	.done(function(res) {
+	.done(res => {
 		eventText = res.name;
 		alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
 		if (Date.now() > alarmDate) {
@@ -99,13 +91,13 @@ $(() => {
 		url: 'video-list.json',
 		dataType: 'json'
 	})
-	.done(function(res) {
+	.done(res => {
 		videoListJson = res;
 		updateOption(res);
 	});
 });
 
-function updateOption(videoList) {
+const updateOption = videoList => {
 	'use strict';
 	$('.selectList').empty();
 	for (const i in videoList) {
@@ -113,7 +105,7 @@ function updateOption(videoList) {
 		list.text = videoList[i].name;
 		$('.selectList').append(list);
 	}
-}
+};
 
 $('#popup-close, #popup-layer').click(() => {
 	'use strict';
@@ -121,15 +113,15 @@ $('#popup-close, #popup-layer').click(() => {
 });
 
 var Player = new Array(30);
-function onPlayerReady(event) {
+const onPlayerReady = event => {
 	'use strict';
 	event.target.pauseVideo();
-}
+};
 
-function PlayerStart(player) {
+const PlayerStart = player => {
 	'use strict';
 	player.playVideo();
-}
+};
 
 $(document).on('click', '.selectBtn', function () {
 	'use strict';
@@ -158,9 +150,9 @@ $(document).on('click', '.selectBtn', function () {
 	});
 	const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 500;
 	console.log(`ID: ${divId} / Time: ${time}`);
-	setTimeout(function() {
+	setTimeout(() => {
 		PlayerStart(Player[num]);
-  }, time);
+	}, time);
 });
 
 $('#vol-mute').on('click', function() {
@@ -210,15 +202,15 @@ while (idLen) {
 
 var grid = $('#grid');
 
-function gridAddItem(num) {
+const gridAddItem = num => {
 	'use strict';
 	for (let i = 0; i < num; i++) {
 		const item = `<div class="item"><div class="selectDiv" id="video${divVideoId[0]}"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>`;
 		divVideoId.shift();
 		grid.append(item);
 	}
-}
-function gridRmvItem(num) {
+};
+const gridRmvItem = num => {
 	'use strict';
 	for (let i = 0; i < num; i++) {
 		const last = $('.item:last');
@@ -226,16 +218,16 @@ function gridRmvItem(num) {
 		divVideoId.push(parseInt(videoId.replace('video', '')));
 		last.remove();
 	}
-}
+};
 
-function getColRowNum() {
+const getColRowNum = () => {
 	'use strict';
 	const colNum = grid.css('grid-template-columns').split(' ').length;
 	const rowNum = grid.css('grid-template-rows').split(' ').length;
 	return { rowNum, colNum };
-}
+};
 
-function setGridCss(type, num) {
+const setGridCss = (type, num) => {
 	'use strict';
 	let name;
 	switch (type) {
@@ -247,7 +239,7 @@ function setGridCss(type, num) {
 			break;
 	}
 	grid.css(`grid-template-${name}`, `repeat(${num}, 1fr)`);
-}
+};
 
 $('#grid-col-add').on('click', function () {
 	'use strict';
