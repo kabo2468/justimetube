@@ -1,11 +1,11 @@
-var videoListJson, alarmDate, eventText;
+let videoListJson, alarmDate, eventText;
 
 const zeroPadding = (num, length) => {
 	'use strict';
 	return (Array(length).join('0') + num).slice(-length);
 };
 
-var dateDiff, nowDate;
+let dateDiff, nowDate;
 const formatDate = date => {
 	'use strict';
 	const y = date.getFullYear();
@@ -112,7 +112,7 @@ $('#popup-close, #popup-layer').click(() => {
 	$('#popup-layer, #popup-content, #popup-content-wide').remove();
 });
 
-var Player = new Array(30);
+const Player = new Array(30);
 const onPlayerReady = event => {
 	'use strict';
 	event.target.pauseVideo();
@@ -149,7 +149,7 @@ $(document).on('click', '.selectBtn', function () {
 		}
 	});
 	const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 500;
-	console.log(`ID: ${divId} / Time: ${time}`);
+	console.log(`ID: ${divId} / Time: ${time}ms`);
 	setTimeout(() => {
 		PlayerStart(Player[num]);
 	}, time);
@@ -191,8 +191,8 @@ $('#vol-max').on('click', function() {
 	}
 });
 
-var divVideoId = [...Array(30).keys()].map(i => i+8);
-var idLen = divVideoId.length;
+const divVideoId = [...Array(30).keys()].map(i => i+8);
+let idLen = divVideoId.length;
 while (idLen) {
 	const j = Math.floor(Math.random() * idLen);
 	const t = divVideoId[--idLen];
@@ -200,31 +200,20 @@ while (idLen) {
 	divVideoId[j] = t;
 }
 
-var grid = $('#grid');
+const grid = $('#grid');
 
-const gridAddItem = num => {
+const addItem = selector => {
 	'use strict';
-	for (let i = 0; i < num; i++) {
-		const item = `<div class="item"><div class="selectDiv" id="video${divVideoId[0]}"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>`;
-		divVideoId.shift();
-		grid.append(item);
-	}
-};
-const gridRmvItem = num => {
-	'use strict';
-	for (let i = 0; i < num; i++) {
-		const last = $('.item:last');
-		const videoId = last.children('.selectDiv').attr('id');
-		divVideoId.push(parseInt(videoId.replace('video', '')));
-		last.remove();
-	}
+	$(selector).after(`<div class="item"><div class="selectDiv" id="video${divVideoId[0]}"><select class="selectList"></select><button class="selectBtn">決定</button></div></div>`);
+	divVideoId.shift();
 };
 
-const getColRowNum = () => {
+const removeItem = selector => {
 	'use strict';
-	const colNum = grid.css('grid-template-columns').split(' ').length;
-	const rowNum = grid.css('grid-template-rows').split(' ').length;
-	return { rowNum, colNum };
+	const item = $(selector);
+	const videoId = item.children('.selectDiv').attr('id');
+	divVideoId.push(parseInt(videoId.replace('video', '')));
+	item.remove();
 };
 
 const setGridCss = (type, num) => {
@@ -241,36 +230,52 @@ const setGridCss = (type, num) => {
 	grid.css(`grid-template-${name}`, `repeat(${num}, 1fr)`);
 };
 
+const getColRowNum = () => {
+	'use strict';
+	const colNum = grid.css('grid-template-columns').split(' ').length;
+	const rowNum = grid.css('grid-template-rows').split(' ').length;
+	return {colNum, rowNum};
+};
+
 $('#grid-col-add').on('click', function () {
 	'use strict';
-	const { rowNum, colNum } = getColRowNum();
-	gridAddItem(rowNum);
+	const {colNum, rowNum} = getColRowNum();
+	for (let i = 0; i < rowNum; i++) {
+		const j = colNum * (i + 1) + i;
+		addItem(`.item:nth-child(${j})`);
+	}
 	setGridCss('col', colNum + 1);
 	updateOption(videoListJson);
 });
 
 $('#grid-row-add').on('click', function () {
 	'use strict';
-	const { rowNum, colNum } = getColRowNum();
-	gridAddItem(colNum);
+	const {colNum, rowNum} = getColRowNum();
+	for (let i = 0; i < colNum; i++) {
+		addItem('.item:last');
+	}
 	setGridCss('row', rowNum + 1);
 	updateOption(videoListJson);
 });
 
 $('#grid-col-rm').on('click', function () {
 	'use strict';
-	const { rowNum, colNum } = getColRowNum();
+	const {colNum} = getColRowNum();
 	if (colNum > 1) {
-		gridRmvItem(rowNum);
+		$(`.item:nth-child(${colNum}n)`).each(function() {
+			removeItem(this);
+		});
 		setGridCss('col', colNum - 1);
 	}
 });
 
 $('#grid-row-rm').on('click', function () {
 	'use strict';
-	const { rowNum, colNum } = getColRowNum();
+	const {colNum, rowNum} = getColRowNum();
 	if (rowNum > 1) {
-		gridRmvItem(colNum);
+		for (let i = 0; i < colNum; i++) {
+			removeItem('.item:last');
+		}
 		setGridCss('row', rowNum - 1);
 	}
 });
