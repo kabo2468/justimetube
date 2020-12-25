@@ -4,106 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <script id="load-css">document.write(`<link rel="stylesheet" href="style.css?${parseInt((new Date)/1000)}"><\/link>`)</script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script id="load-css">document.write(`<link rel="stylesheet" href="style.css?${parseInt((new Date) / 1000)}"/>`)</script>
     <title>Clock with YouTube</title>
 </head>
 <body>
-    <div id="popup-layer"></div>
-    <div id="popup-content">
-        <div id="popup-pc">
-            <h1 id="about-text">このWebサイトについて</h1>
-            <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
-            <p>左のリストから選んで、ボタンを押すとYouTubeの埋め込みが表示されます。</p>
-            <p>イベントの時刻が近づくと、勝手に再生されます。</p>
-            <p>動画の設定は、余裕を持って設定してください。（目安3分）</p>
-            <p>今のイベントは <span class="event-name"></span> です。</p>
-            <p>そのうち、自分で決められるようにします。</p>
-            <p>汚いコードなので、もし良ければGitHubでIssuesなど投げてくれるとありがたいです。</p>
-            <p>下にSingleページという1つの動画だけで、自由に時間を決められるページがあります。</p>
-            <h2>このサイトはPC専用です。<br>そのうちスマホ等にも対応させるので、TwitterやGitHubで文句とか言ってください。</h2>
-            <p><a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a></p>
-            <p>動画もJson形式で書いてるだけなので、GitHubでPull Requestか<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3">ここ</a>から投稿してください。</p>
-            <p>なんでもいいのでお願いします。</p>
-            <button id="popup-close">閉じる</button>
+<div id="popup-layer"></div>
+<div id="popup-content">
+    <div id="popup-pc">
+        <h1 id="about-text">このWebサイトについて</h1>
+        <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
+        <p>IE以外の最新のブラウザなら動くはずです。Chrome推奨。</p>
+        <p>左のリストから選んで、ボタンを押すとYouTubeの埋め込みが表示されます。</p>
+        <p>イベントの時刻が近づくと、勝手に再生されます。</p>
+        <p>動画の指定は、余裕を持って指定してください。（目安3分）</p>
+        <p>今のイベントは <span class="event-name"></span> です。</p>
+        <p>そのうち、自分で決められるようにします。</p>
+        <p>汚いコードなので、もし良ければGitHubでIssuesなど投げてくれるとありがたいです。</p>
+        <p>下にSingleページという1つの動画だけで、自由に時間を決められるページがあります。</p>
+        <h2>このサイトはPC専用です。<br>そのうちスマホ等にも対応させます。</h2>
+        <p><a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a>
+        </p>
+        <p>動画もJson形式で書いてるだけなので、GitHubでPull Requestか<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3">ここ</a>から投稿してください。</p>
+        <button id="popup-close">閉じる</button>
+    </div>
+    <div id="popup-other">
+        <h1>ごめんなさい！</h1>
+        <p>このサイトはPC専用です！</p>
+        <p class="not">そのうちスマホ等にも対応させるので、 <a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a> とか <a
+                href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a> で文句とか言ってください。</p>
+        <h2><a href="single/">Singleページ</a>は、スマホ等に対応しました。Android以外持ってないので、どこかおかしかったら言ってください。</h2>
+    </div>
+</div>
+<div id="container">
+    <div id="grid">
+        <div class="item" id="clock">
+            <p class="event-name"></p>
+            <p id="alarm-clock-text"></p>
+            <p id="now-clock-text"></p>
+            <div id="ctrl">
+                <span>音量:</span>
+                <button id="vol-mute">ミュート</button>
+                <button id="vol-50">50%</button>
+                <button id="vol-max">最大</button>
+                <button id="grid-col-add">列追加</button>
+                <button id="grid-row-add">行追加</button>
+                <button id="grid-col-rm">列削除</button>
+                <button id="grid-row-rm">行削除</button>
+            </div>
+            <p>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Clock with YouTube"
+                   data-url="https://kabo2468.github.io/clock-with-yt/" data-show-count="false">Tweet</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </p>
         </div>
-        <div id="popup-other">
-            <h1>ごめんなさい！</h1>
-            <p>このサイトはPC専用です！</p>
-            <p class="not">そのうちスマホ等にも対応させるので、 <a href="https://twitter.com/kabo2468y" target="_blank">Twitter</a> とか <a href="https://github.com/kabo2468/clock-with-yt" target="_blank">GitHub</a> で文句とか言ってください。</p>
-            <h2><a href="single/">Singleページ</a>は、スマホ等に対応しました。Android以外持ってないので、どこかおかしかったら言ってください。</h2>
+        <div class="item">
+            <div class="selectDiv" id="video0">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video1">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video2">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video3">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video4">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video5">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video6">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
+        </div>
+        <div class="item">
+            <div class="selectDiv" id="video7">
+                <select class="selectList"></select>
+                <button class="selectBtn">決定</button>
+            </div>
         </div>
     </div>
-    <div id="container">
-        <div id="grid">
-            <div class="item" id="clock">
-                <p class="event-name"></p>
-                <p id="alarm-clock-text"></p>
-                <p id="now-clock-text"></p>
-                <div id="ctrl">
-                    <span>音量:</span>
-                    <button id="vol-mute">ミュート</button>
-                    <button id="vol-50">50%</button>
-                    <button id="vol-max">最大</button>
-                    <button id="grid-col-add">列追加</button>
-                    <button id="grid-row-add">行追加</button>
-                    <button id="grid-col-rm">列削除</button>
-                    <button id="grid-row-rm">行削除</button>
-                </div>
-                <p>
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Clock with YouTube" data-url="https://kabo2468.github.io/clock-with-yt/" data-show-count="false">Tweet</a>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </p>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video0">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video1">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video2">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video3">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video4">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video5">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video6">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="selectDiv" id="video7">
-                    <select class="selectList"></select><button class="selectBtn">決定</button>
-                </div>
-            </div>
-        </div>
-        <footer>
-            <a href="https://github.com/kabo2468/clock-with-yt" target="_blank" class="link"><i class="fab fa-github fa-fw"></i>GitHub</a>
-            <a href="https://twitter.com/kabo2468y" target="_blank" class="link"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
-            <a href="single/" class="link"><i class="fas fa-chevron-right fa-fw"></i>Singleページ</a>
-        </footer>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://www.youtube.com/player_api" async></script>
-    <script id="load-js">document.write(`<script src="main.js?${parseInt((new Date)/1000)}" async><\/script>`);$('#load-css,#load-js').remove();</script>
+    <footer>
+        <a href="https://github.com/kabo2468/clock-with-yt" target="_blank" class="link"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://twitter.com/kabo2468y" target="_blank" class="link"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+        <a href="single/" class="link"><i class="fas fa-chevron-right fa-fw"></i>Singleページ</a>
+    </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://www.youtube.com/player_api" async></script>
+<script id="load-js">document.write(`<script src="main.js?${parseInt((new Date) / 1000)}" async><\/script>`);
+$('#load-css,#load-js').remove();</script>
 </body>
 </html>
