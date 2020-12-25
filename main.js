@@ -115,7 +115,9 @@ $('#popup-close, #popup-layer').click(() => {
 const Player = new Array(30);
 const onPlayerReady = event => {
 	'use strict';
+    setTimeout(() => {
 	event.target.pauseVideo();
+    }, 1000);
 };
 
 const PlayerStart = player => {
@@ -148,7 +150,7 @@ $(document).on('click', '.selectBtn', function () {
 			onReady: onPlayerReady
 		}
 	});
-	const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 500;
+    const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 1500;
 	console.log(`ID: ${divId} / Time: ${time}ms`);
 	setTimeout(() => {
 		PlayerStart(Player[num]);
