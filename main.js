@@ -101,11 +101,11 @@ const updateOption = videoList => {
     'use strict';
     const selectList = $('.selectList');
     selectList.empty();
-    for (const i in videoList) {
+    videoList.forEach(video => {
         const list = document.createElement('option');
-        list.text = videoList[i].name;
+        list.text = video.name;
         selectList.append(list);
-    }
+    })
 };
 
 $('#popup-close, #popup-layer').on('click', () => {
