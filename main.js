@@ -1,11 +1,10 @@
-let videoListJson, alarmDate, eventText;
+let videoListJson, alarmDate, eventText, dateDiff, nowDate;
 
 const zeroPadding = (num, length) => {
     'use strict';
-    return (Array(length).join('0') + num).slice(-length);
+    return ('0'.repeat(length) + num).slice(-length);
 };
 
-let dateDiff, nowDate;
 const formatDate = date => {
     'use strict';
     const y = date.getFullYear();
@@ -20,17 +19,11 @@ const formatDate = date => {
 const getDateOffset = () => {
     'use strict';
     const localDate = Date.now();
-    $.ajax({
-        type: 'GET',
-        url: `https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`,
-        dataType: 'json'
-    })
-        .done(res => {
-            dateDiff = res.st * 1000 + (localDate - res.it * 1000) / 2 - localDate;
-        })
-        .fail(() => {
-            dateDiff = 0;
-        });
+    fetch(`https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`).then(res => res.json()).then(json => {
+        dateDiff = json.st * 1000 + (localDate - json.it * 1000) / 2 - localDate;
+    }).catch(() => {
+        dateDiff = 0;
+    });
 };
 
 const clock = () => {
@@ -56,45 +49,24 @@ const clock = () => {
 
 $(() => {
     'use strict';
-    $('#popup-layer, #popup-content, #popup-content-wide').show();
-    const ua = navigator.userAgent;
-    if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) {
-        // スマホ以外
-        $('#popup-layer, #popup-pc, #container').remove();
-        $('#popup-content').attr('id', 'popup-content-wide');
-        return;
-    } else {
-        $('#popup-other').remove();
-    }
+    $('#popup-layer, #popup-content').show();
 
-    $.ajax({
-        type: 'GET',
-        cache: false,
-        url: 'event.json',
-        dataType: 'json'
-    })
-        .done(res => {
-            eventText = res.name;
-            alarmDate = new Date(res.date.year, res.date.month - 1, res.date.day, res.date.hour, res.date.minute, res.date.second);
-            if (Date.now() > alarmDate) {
-                alarmDate = new Date(res.next.date.year, res.next.date.month - 1, res.next.date.day, res.next.date.hour, res.next.date.minute, res.next.date.second);
-                eventText = res.next.name;
-            }
-            $('.event-name').text(eventText);
-            $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
-        });
+    fetch('event.json').then(res => res.json()).then(json => {
+        eventText = json.name;
+        alarmDate = new Date(json.date.year, json.date.month - 1, json.date.day, json.date.hour, json.date.minute, json.date.second);
+        if (Date.now() > alarmDate) {
+            alarmDate = new Date(json.next.date.year, json.next.date.month - 1, json.next.date.day, json.next.date.hour, json.next.date.minute, json.next.date.second);
+            eventText = json.next.name;
+        }
+        $('.event-name').text(eventText);
+        $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
+    });
     clock();
 
-    $.ajax({
-        type: 'GET',
-        cache: false,
-        url: 'video-list.json',
-        dataType: 'json'
-    })
-        .done(res => {
-            videoListJson = res;
-            updateOption(res);
-        });
+    fetch('video-list.json').then(res => res.json()).then(json => {
+        videoListJson = json;
+        updateOption(json);
+    });
 });
 
 const updateOption = videoList => {
