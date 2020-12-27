@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&subset=japanese');
+
 $footer-height: 2em;
 $item-padding: 5px;
 
@@ -7,7 +8,7 @@ $item-padding: 5px;
     height: 100%;
 }
 
-@mixin alginCenter {
+@mixin alignCenter {
     text-align: center;
     display: flex;
     justify-content: center;
@@ -87,7 +88,7 @@ footer {
 
 .selectDiv {
     @include wh100;
-    @include alginCenter;
+    @include alignCenter;
 }
 
 select {
@@ -97,7 +98,7 @@ select {
 #clock p {
     margin: 10px;
     height: auto;
-    @include alginCenter;
+    @include alignCenter;
 }
 
 .event-name {
@@ -106,11 +107,12 @@ select {
 
 #now-clock-text {
     font-size: 2em;
-    @include alginCenter;
+    @include alignCenter;
 }
 
 #ctrl {
-    @include alginCenter;
+    @include alignCenter;
+
     button {
         margin: 0 3px;
         font-size: .8em;
