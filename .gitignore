@@ -1,5 +1,7 @@
 # テスト用
 test/
+node_modules
+.cache
 
 # VSCode
 *.code-workspace
