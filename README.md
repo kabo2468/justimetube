@@ -1,4 +1,4 @@
-# Clock with YouTube
+# JustimeTube
 
 ○時○分○秒に○○を流すと○○のときに○○ってやつ
 
