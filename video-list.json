@@ -14,16 +14,9 @@
         "end": 61
     },
     {
-        "name": "Syamu オフ会0人",
-        "id": "D0GeBHWQtKY",
-        "fit": 53,
-        "start": 0,
-        "end": 62
-    },
-    {
-        "name": "止まるんじゃねぇぞ...",
-        "id": "cQjAN8_yVP8",
-        "fit": 166,
+        "name": "フリージア",
+        "id": "olWPDel6ti4",
+        "fit": 81,
         "start": 0,
         "end": 0
     },
@@ -40,13 +33,6 @@
         "fit": 65,
         "start": 0,
         "end": 0
-    },
-    {
-        "name": "BE MY BABY",
-        "id": "7XRbhGEHGSc",
-        "fit": 175,
-        "start": 124,
-        "end": 185
     },
     {
         "name": "平成発表",
@@ -96,12 +82,5 @@
         "fit": 65,
         "start": 0,
         "end": 93
-    },
-    {
-        "name": "U.S.A.",
-        "id": "sr--GVIoluU",
-        "fit": 67,
-        "start": 0,
-        "end": 101
     }
 ]
