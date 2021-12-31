@@ -1,114 +1,117 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/efea82c082.js"></script>
-    <link href="style.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet" />
     <title>JustimeTube</title>
 </head>
+
 <body>
-<div id="popup-layer"></div>
-<div id="popup-content">
-    <h1 id="about-text">このWebサイトについて</h1>
-    <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
-    <h2>スマホでも動くと思いますが、PC推奨です。</h2>
-    <p>スマホの方は<a href="single/">Singleページ</a>という動画を1つだけ流せるページがあるので、そちらを使ってください。</p>
-    <p>IE以外の最新のブラウザなら動くはずです。Chrome推奨。</p>
-    <p>左のリストから選んで、決定ボタンを押すとYouTubeの埋め込みが表示されます。</p>
-    <p>イベントの時刻が近づくと、勝手に再生されます。</p>
-    <p>動画の指定は、余裕を持って指定してください。（目安3分）</p>
-    <p>今のイベントは <span class="event-name"></span> です。</p>
-    <p>そのうち、自分で決められるようにします。</p>
-    <p>汚いコードなので、もし良ければGitHubでIssueなど投げてくれるとありがたいです。</p>
-    <p><a href="https://github.com/kabo2468/justimetube" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y"
-                                                                                          target="_blank">Twitter</a>
-    </p>
-    <p>動画もJson形式で書いてるだけなので、GitHubでIssueや<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3" target="_blank">ここ</a>から投稿してください。</p>
-    <button id="popup-close">閉じる</button>
-</div>
-<div id="container">
-    <div id="grid">
-        <div class="item" id="clock">
-            <p class="event-name"></p>
-            <p id="alarm-clock-text"></p>
-            <p id="now-clock-text"></p>
-            <div id="ctrl">
-                <span>音量:</span>
-                <button id="vol-mute">ミュート</button>
-                <button id="vol-50">50%</button>
-                <button id="vol-max">最大</button>
-                <button id="grid-col-add">列追加</button>
-                <button id="grid-row-add">行追加</button>
-                <button id="grid-col-rm">列削除</button>
-                <button id="grid-row-rm">行削除</button>
-            </div>
-            <p>
-                <a class="twitter-share-button" data-show-count="false" data-text="JustimeTube"
-                   data-url="https://kabo2468.github.io/justimetube/" href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank">Tweet</a>
-                <script async charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
-            </p>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video0">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video1">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video2">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video3">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video4">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video5">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video6">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
-        <div class="item">
-            <div class="selectDiv" id="video7">
-                <select class="selectList"></select>
-                <button class="selectBtn">決定</button>
-            </div>
-        </div>
+    <div id="popup-layer"></div>
+    <div id="popup-content">
+        <h1 id="about-text">このWebサイトについて</h1>
+        <p>何かのイベントの時刻に合わせてYouTubeの動画が勝手に再生するWebサイトです。</p>
+        <h2>スマホでも動くと思いますが、PC推奨です。</h2>
+        <p>スマホの方は<a href="single/">Singleページ</a>という動画を1つだけ流せるページがあるので、そちらを使ってください。</p>
+        <p>IE以外の最新のブラウザなら動くはずです。Chrome推奨。</p>
+        <p>左のリストから選んで、決定ボタンを押すとYouTubeの埋め込みが表示されます。</p>
+        <p>イベントの時刻が近づくと、勝手に再生されます。</p>
+        <p>動画の指定は、余裕を持って指定してください。（目安3分）</p>
+        <p>今のイベントは <span class="event-name"></span> です。</p>
+        <p>そのうち、自分で決められるようにします。</p>
+        <p>汚いコードなので、もし良ければGitHubでIssueなど投げてくれるとありがたいです。</p>
+        <p><a href="https://github.com/kabo2468/justimetube" target="_blank">GitHub</a><br><a href="https://twitter.com/kabo2468y"
+                target="_blank">Twitter</a>
+        </p>
+        <p>動画もJson形式で書いてるだけなので、GitHubでIssueや<a href="https://goo.gl/forms/NAjjdg4yGfNV1Q5G3" target="_blank">ここ</a>から投稿してください。</p>
+        <button id="popup-close">閉じる</button>
     </div>
-    <footer>
-        <a class="link" href="https://github.com/kabo2468/justimetube" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-        <a class="link" href="https://twitter.com/kabo2468y" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
-        <a class="link" href="single/"><i class="fas fa-chevron-right fa-fw"></i>Singleページ</a>
-    </footer>
-</div>
-<script crossorigin="anonymous"
+    <div id="container">
+        <div id="grid">
+            <div class="item" id="clock">
+                <p class="event-name"></p>
+                <p id="alarm-clock-text"></p>
+                <p id="now-clock-text"></p>
+                <div id="ctrl">
+                    <span>音量:</span>
+                    <button id="vol-mute">ミュート</button>
+                    <button id="vol-50">50%</button>
+                    <button id="vol-max">最大</button>
+                    <button id="grid-col-add">列追加</button>
+                    <button id="grid-row-add">行追加</button>
+                    <button id="grid-col-rm">列削除</button>
+                    <button id="grid-row-rm">行削除</button>
+                </div>
+                <p>
+                    <a class="twitter-share-button" data-show-count="false" data-text="JustimeTube"
+                        data-url="https://kabo2468.github.io/justimetube/" href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank">Tweet</a>
+                    <script async charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
+                </p>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video0">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video1">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video2">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video3">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video4">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video5">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video6">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+            <div class="item">
+                <div class="selectDiv" id="video7">
+                    <select class="selectList"></select>
+                    <button class="selectBtn">決定</button>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <a class="link" href="https://github.com/kabo2468/justimetube" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+            <a class="link" href="https://twitter.com/kabo2468y" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+            <a class="link" href="single/"><i class="fas fa-chevron-right fa-fw"></i>Singleページ</a>
+        </footer>
+    </div>
+    <script crossorigin="anonymous"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script async src="https://www.youtube.com/player_api"></script>
-<script async src="main.js"></script>
+    <script async src="https://www.youtube.com/player_api"></script>
+    <script async src="main.js"></script>
 </body>
+
 </html>
