@@ -1,4 +1,4 @@
-let videoListJson, alarmDate, eventText, dateDiff, updateOffset, nowDate;
+let videoListJson, alarmDate, eventText, nowDate;
 
 const zeroPadding = (num, length) => {
     'use strict';
@@ -16,31 +16,11 @@ const formatDate = date => {
     return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec, 2)}秒`;
 };
 
-const getDateOffset = async () => {
-    'use strict';
-    const localDate = Date.now();
-    await fetch(`https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`).then(res => res.json()).then(json => {
-        dateDiff = json.st * 1000 + (localDate - json.it * 1000) / 2 - localDate;
-    }).catch(() => {
-        dateDiff = 0;
-    });
-};
-
 function clock() {
     'use strict';
-    nowDate = new Date(Date.now() + dateDiff);
+    nowDate = new Date();
 
-    if (dateDiff !== undefined) {
-        $('#nowDateText').html(formatDate(nowDate).replace(/\n/g, '<br>'));
-    }
-
-    if (nowDate.getSeconds() === 30) {
-        if (updateOffset === false) {
-            getDateOffset();
-        }
-    } else {
-        updateOffset = false;
-    }
+    $('#nowDateText').html(formatDate(nowDate).replace(/\n/g, '<br>'));
 
     if (alarmDate < nowDate) {
         $('#nowDateText').addClass('red-text');
@@ -51,18 +31,14 @@ function clock() {
     setTimeout(clock, 250);
 }
 
-(() => {
-    getDateOffset();
-})();
-
 $(() => {
     'use strict';
-    fetch('../event.json').then(res => res.json()).then(json => {
-        eventText = json.name;
-        alarmDate = new Date(json.date.year, json.date.month - 1, json.date.day, json.date.hour, json.date.minute, json.date.second);
-        $('#eventText').text(eventText);
-        $('#setDateText').html(formatDate(alarmDate).replace(/\n/g, '<br>'));
-    });
+
+    const now = new Date();
+    eventText = `${now.getFullYear() + 1}年`;
+    alarmDate = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+    $('.event-name').text(eventText);
+    $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
 
     clock();
 
