@@ -1,4 +1,4 @@
-let videoListJson, alarmDate, eventText, dateDiff, nowDate;
+let videoListJson, alarmDate, eventText, nowDate;
 
 const zeroPadding = (num, length) => {
     'use strict';
@@ -16,23 +16,10 @@ const formatDate = date => {
     return `${y}年${m}月${d}日\n${h}時${zeroPadding(min, 2)}分${zeroPadding(sec, 2)}秒`;
 };
 
-const getDateOffset = () => {
-    'use strict';
-    const localDate = Date.now();
-    fetch(`https://ntp-a1.nict.go.jp/cgi-bin/json?${localDate / 1000}`).then(res => res.json()).then(json => {
-        dateDiff = json.st * 1000 + (localDate - json.it * 1000) / 2 - localDate;
-    }).catch(() => {
-        dateDiff = 0;
-    });
-};
-
 const clock = () => {
     'use strict';
-    nowDate = new Date(Date.now() + dateDiff);
-
-    if (dateDiff !== undefined) {
-        $('#now-clock-text').html(formatDate(nowDate).replace(/\n/g, '<br>'));
-    }
+    nowDate = new Date();
+    $('#now-clock-text').html(formatDate(nowDate).replace(/\n/g, '<br>'));
 
     if (alarmDate < nowDate) {
         $('#now-clock-text').addClass('red-text');
@@ -42,25 +29,16 @@ const clock = () => {
     setTimeout(clock, 200);
 };
 
-(() => {
-    getDateOffset();
-    setInterval(getDateOffset, 1000 * 60);
-})();
-
 $(() => {
     'use strict';
     $('#popup-layer, #popup-content').show();
 
-    fetch('event.json').then(res => res.json()).then(json => {
-        eventText = json.name;
-        alarmDate = new Date(json.date.year, json.date.month - 1, json.date.day, json.date.hour, json.date.minute, json.date.second);
-        if (Date.now() > alarmDate) {
-            alarmDate = new Date(json.next.date.year, json.next.date.month - 1, json.next.date.day, json.next.date.hour, json.next.date.minute, json.next.date.second);
-            eventText = json.next.name;
-        }
-        $('.event-name').text(eventText);
-        $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
-    });
+    const now = new Date();
+    eventText = `${now.getFullYear() + 1}年`;
+    alarmDate = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+    $('.event-name').text(eventText);
+    $('#alarm-clock-text').html(formatDate(alarmDate).replace(/\n/g, ' '));
+
     clock();
 
     fetch('video-list.json').then(res => res.json()).then(json => {
@@ -88,9 +66,11 @@ $('#popup-close, #popup-layer').on('click', () => {
 const Player = new Array(30);
 const onPlayerReady = event => {
     'use strict';
+    event.target.playVideo();
     setTimeout(() => {
         event.target.pauseVideo();
-    }, 1000);
+        event.target.seekTo(event.target.getCurrentTime() - 2);
+    }, 2000);
 };
 
 const PlayerStart = player => {
@@ -123,7 +103,7 @@ $(document).on('click', '.selectBtn', function () {
             onReady: onPlayerReady
         }
     });
-    const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 1500;
+    const time = alarmDate - (video.fit - video.start) * 1000 - nowDate - 1000;
     console.log(`ID: ${divId} / Time: ${time}ms`);
     setTimeout(() => {
         PlayerStart(Player[num]);
@@ -209,12 +189,18 @@ const getColRowNum = () => {
     'use strict';
     const colNum = grid.css('grid-template-columns').split(' ').length;
     const rowNum = grid.css('grid-template-rows').split(' ').length;
-    return {colNum, rowNum};
+    return {
+        colNum,
+        rowNum
+    };
 };
 
 $('#grid-col-add').on('click', function () {
     'use strict';
-    const {colNum, rowNum} = getColRowNum();
+    const {
+        colNum,
+        rowNum
+    } = getColRowNum();
     for (let i = 0; i < rowNum; i++) {
         const j = colNum * (i + 1) + i;
         addItem(`.item:nth-child(${j})`);
@@ -225,7 +211,10 @@ $('#grid-col-add').on('click', function () {
 
 $('#grid-row-add').on('click', function () {
     'use strict';
-    const {colNum, rowNum} = getColRowNum();
+    const {
+        colNum,
+        rowNum
+    } = getColRowNum();
     for (let i = 0; i < colNum; i++) {
         addItem('.item:last');
     }
@@ -235,7 +224,9 @@ $('#grid-row-add').on('click', function () {
 
 $('#grid-col-rm').on('click', function () {
     'use strict';
-    const {colNum} = getColRowNum();
+    const {
+        colNum
+    } = getColRowNum();
     if (colNum > 1) {
         $(`.item:nth-child(${colNum}n)`).each(function () {
             removeItem(this);
@@ -246,7 +237,10 @@ $('#grid-col-rm').on('click', function () {
 
 $('#grid-row-rm').on('click', function () {
     'use strict';
-    const {colNum, rowNum} = getColRowNum();
+    const {
+        colNum,
+        rowNum
+    } = getColRowNum();
     if (rowNum > 1) {
         for (let i = 0; i < colNum; i++) {
             removeItem('.item:last');
